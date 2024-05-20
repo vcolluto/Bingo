@@ -1,7 +1,9 @@
 package org.generation.italy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Scanner;
 /*
  * Scrivere un programma che simula il gioco "Bingo"
 
@@ -28,8 +30,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		ArrayList<Integer> schedaUtente = new ArrayList<Integer>();	//le prime 5 posizioni sono la prima riga, le successive 5 la seconda, ecc.
+		HashSet<Integer> numeriEstratti=new HashSet<Integer>();
+		
 		
 		Random r=new Random();
+		Scanner sc=new Scanner(System.in);
 		int n;
 		
 		do {
@@ -39,12 +44,32 @@ public class Main {
 		} while (schedaUtente.size()<15);		//torno indietro se nella scheda ci sono meno di 15 numeri
 
 		
-		//stampo la scheda su tre righe
-		for (int i=0;i<schedaUtente.size();i++) {
-			System.out.print(schedaUtente.get(i)+" ");
-			if (i==4||i==9)
+		
+		
+		//estrazione dei numeri del tabellone
+		do {
+			n=r.nextInt(90)+1;					//casuale da 1 a 90
+			if (!numeriEstratti.contains(n)) {
+				numeriEstratti.add(n);			//se il numero non è contenuto nella scheda lo aggiungo
+				System.out.println("Numero estratto: "+n);
+				System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+				//stampo la scheda su tre righe
+				for (int i=0;i<schedaUtente.size();i++) {
+					if (numeriEstratti.contains(schedaUtente.get(i)))	//se il numero della scheda è stato estratto lo evidenzio
+						System.out.print(schedaUtente.get(i)+"* ");		
+					else
+						System.out.print(schedaUtente.get(i)+"  ");		//se il numero non è presente nella scheda lo stampo normalmente
+					if (i==4||i==9)
+						System.out.println();
+				}	
+				
 				System.out.println();
-		}	
+				System.out.println("premi invio per continuare...");
+				sc.nextLine();
+				
+			}
+			
+		} while (numeriEstratti.size()<90);		//torno indietro se nella scheda ci sono meno di 15 numeri
 	}
 
 }
