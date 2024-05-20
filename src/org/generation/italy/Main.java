@@ -38,7 +38,13 @@ public class Main {
 				schedaUtente.add(n);			//se il numero non è contenuto nella scheda lo aggiungo
 		} while (schedaUtente.size()<15);		//torno indietro se nella scheda ci sono meno di 15 numeri
 
-		System.out.println(schedaUtente);
+		
+		//stampo la scheda su tre righe
+		for (int i=0;i<schedaUtente.size();i++) {
+			System.out.print(schedaUtente.get(i)+" ");
+			if (i==4||i==9)
+				System.out.println();
+		}	
 	}
 
 }
