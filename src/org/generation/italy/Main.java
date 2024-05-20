@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
-import it.edu.iisvolta.JConsole;
+
 /*
  * Scrivere un programma che simula il gioco "Bingo"
 
@@ -42,7 +42,10 @@ public class Main {
 		
 		Random r=new Random();
 		Scanner sc=new Scanner(System.in);
-		int n;
+		int n, estrattiRiga, estrattiScheda;
+		boolean cinquina=false, bingo=false;
+		boolean attesaBingo=false;		//indica se sono in attesa del bingo 
+		
 		
 		do {
 			n=r.nextInt(90)+1;					//casuale da 1 a 90
@@ -62,26 +65,45 @@ public class Main {
 				System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 				System.out.println("Numero estratto: "+n);
 				
+				estrattiRiga=0;
+				estrattiScheda=0;
 				//stampo la scheda su tre righe
 				for (int i=0;i<schedaUtente.size();i++) {
 					if (numeriEstratti.contains(schedaUtente.get(i))) {	//se il numero della scheda è stato estratto lo evidenzio
 						System.out.print("\u001b[1;34;34m");		//colore blu
 						System.out.print("\u001b[1m");		//grassetto
+						estrattiRiga++;
+						estrattiScheda++;
+						if (estrattiRiga==5)
+							cinquina=true;
+						if (estrattiScheda==15) {
+							bingo=true;
+						}
+							
 					}							
 					else
 						System.out.print("\u001b[0m");		//testo normale						
 					System.out.print(schedaUtente.get(i)+" ");
-					if (i==4||i==9)
+					if (i==4||i==9)	{				//cambio riga => azzero il contatore della cinquina
 						System.out.println();
+						estrattiRiga=0;
+					}
 				}	
-				
+				System.out.print("\u001b[0m");		//testo normale		
 				System.out.println();
+				if (cinquina && !attesaBingo) {		// se ho fatto la cinquina e non sono in attesa del bingo mostro il messaggio "Cinquina"
+					System.out.println("Cinquina!");
+					attesaBingo=true;		//non mi interessa più la cinquina
+				}	
+				if (bingo)
+					System.out.println("Bingo!");
 				System.out.println("premi invio per continuare...");
 				sc.nextLine();
 				
 			}
 			
-		} while (numeriEstratti.size()<90);		//torno indietro se nella scheda ci sono meno di 15 numeri
+		} while (numeriEstratti.size()<90 && !bingo);		//torno indietro se nella scheda ci sono meno di 15 numeri e non ho fatto bingo
 	}
 
 }
+
