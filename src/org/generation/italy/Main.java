@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
+
+import it.edu.iisvolta.JConsole;
 /*
  * Scrivere un programma che simula il gioco "Bingo"
 
@@ -26,6 +28,11 @@ Assicurarsi che la cinquina venga fatta sulla stessa riga.
 
 Per i più "temerari": dare la possibilità all'utente di avere più di una scheda (chiedere all'utente all'avvio del programma quante schede vuole "acquistare")
  */
+
+//sequenze di escape (bold, colore, ecc.):
+//https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -51,14 +58,19 @@ public class Main {
 			n=r.nextInt(90)+1;					//casuale da 1 a 90
 			if (!numeriEstratti.contains(n)) {
 				numeriEstratti.add(n);			//se il numero non è contenuto nella scheda lo aggiungo
-				System.out.println("Numero estratto: "+n);
+				
 				System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+				System.out.println("Numero estratto: "+n);
+				
 				//stampo la scheda su tre righe
 				for (int i=0;i<schedaUtente.size();i++) {
-					if (numeriEstratti.contains(schedaUtente.get(i)))	//se il numero della scheda è stato estratto lo evidenzio
-						System.out.print(schedaUtente.get(i)+"* ");		
+					if (numeriEstratti.contains(schedaUtente.get(i))) {	//se il numero della scheda è stato estratto lo evidenzio
+						System.out.print("\u001b[1;34;34m");		//colore blu
+						System.out.print("\u001b[1m");		//grassetto
+					}							
 					else
-						System.out.print(schedaUtente.get(i)+"  ");		//se il numero non è presente nella scheda lo stampo normalmente
+						System.out.print("\u001b[0m");		//testo normale						
+					System.out.print(schedaUtente.get(i)+" ");
 					if (i==4||i==9)
 						System.out.println();
 				}	
